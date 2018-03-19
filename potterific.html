@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf8">
+    <title>Potterific - JS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <style>
+        .over {
+            background-color: orange;
+        }
+        
+        .selected {
+            background-color: green;
+        }
+        
+        .odd {
+            background-color: gainsboro;
+        }
+        
+        #btns button {
+            background-color: rgb(170, 170, 170);
+            /* Green background */
+            border: 1px solid rgb(255, 255, 255);
+            /* Green border */
+            color: white;
+            /* White text */
+            padding: 10px 29.1px;
+            /* Some padding */
+            cursor: pointer;
+            /* Pointer/hand icon */
+            float: left;
+            /* Float the buttons side by side */
+            margin-bottom: .5em;
+        }
+        
+        #btns button:not(:last-child) {
+            border-right: none;
+            /* Prevent double borders */
+        }
+        /* Clear floats (clearfix hack) */
+        
+        #btns:after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        /* Add a background color on hover */
+        
+        #btns button:hover {
+            background-color: #ffffff;
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="btns"></div>
+    <table id="myTable" border=1>
+        <thead>
+            <tr>
+                <th>NAME</th>
+                <th>ROLE</th>
+                <th>HOUSE</th>
+                <th>GENDER</th>
+                <th>ALIGNMENT</th>
+            </tr>
+        </thead>
+
+    </table>
+
+    <br>
+    <button>reset</button>
+
+
+    <script>
+        // list of characters
+        var characters = [{
+            wizard: "Albus Dumbledore",
+            role: "staff",
+            house: "Gryffindor",
+            gender: "m",
+            alignment: "good"
+        }, {
+            wizard: "Nymphadora Tonks",
+            role: "",
+            house: "Hufflepuff",
+            gender: "f",
+            alignment: "good"
+        }, {
+            wizard: "Ron Weasley",
+            role: "student",
+            house: "Gryffindor",
+            gender: "m",
+            alignment: "good"
+        }, {
+            wizard: "Ginny Weasley",
+            role: "student",
+            house: "Gryffindor",
+            gender: "f",
+            alignment: "good"
+        }, {
+            wizard: "Hermione Granger",
+            role: "student",
+            house: "Gryffindor",
+            gender: "f",
+            alignment: "good"
+        }, {
+            wizard: "Mad-eye Moody",
+            role: "staff",
+            house: "",
+            gender: "m",
+            alignment: "good"
+        }, {
+            wizard: "Prof McGonagall",
+            role: "staff",
+            house: "Gryffindor",
+            gender: "f",
+            alignment: "good"
+        }, {
+            wizard: "Harry Potter",
+            role: "student",
+            house: "Gryffindor",
+            gender: "m",
+            alignment: "good"
+        }, {
+            wizard: "Draco Malfoy",
+            role: "student",
+            house: "Slytherin",
+            gender: "m",
+            alignment: "evil"
+        }, {
+            wizard: "Hagrid",
+            role: "staff",
+            house: "Gryffindor",
+            gender: "m",
+            alignment: "good"
+        }, {
+            wizard: "Luna Lovegood",
+            role: "student",
+            house: "Ravenclaw",
+            gender: "f",
+            alignment: "good"
+        }, {
+            wizard: "Voldemort",
+            role: "",
+            house: "Slytherin",
+            gender: "m",
+            alignment: "evil"
+        }, {
+            wizard: "Bellatrix Lestrange",
+            role: "",
+            house: "Slytherin",
+            gender: "f",
+            alignment: "evil"
+        }, {
+            wizard: "Severus Snape",
+            role: "staff",
+            house: "Slytherin",
+            gender: "m",
+            alignment: "?"
+        }];
+
+
+        $(document).ready(function() {
+            /*
+            - add a button for each 'house' value
+            - add table row for each character
+            - set visible rows to alternating background color     
+            - add click handler to show only rows matching selected 'house'. Enable buttons to call this handler.
+            - add click handler to reset table 
+            */
+
+            // creating the table
+            for (var i = 0; i < characters.length; i++) {
+                $("#myTable tr:last").after("<tr><td>" + characters[i].wizard +
+                    "</td><td>" + characters[i].role + "</td><td>" + characters[i].house +
+                    "</td><td>" + characters[i].gender + "</td><td>" + characters[i].alignment +
+                    "</td></tr>");
+                for (var j = 0; j < 5; j++) {
+                    if ($.inArray('Gryffindor', characters) > -1) {
+                        alert('LOL');
+                    }
+
+                }
+            }
+
+            // every other visible row to alternating colors
+            $('thead, tr:odd').addClass('odd');
+
+            //looks for house value
+            var gryfs = characters.filter(function(el) {
+                return el.house == 'Gryffindor'; // Changed this so a home would match
+            });
+            console.log(gryfs);
+
+            var huffs = characters.filter(function(el) {
+                return el.house == 'Hufflepuff'; // Changed this so a home would match
+            });
+            console.log(huffs);
+
+            var ravs = characters.filter(function(el) {
+                return el.house == 'Ravenclaw'; // Changed this so a home would match
+            });
+            console.log(ravs);
+
+            var slyths = characters.filter(function(el) {
+                return el.house == 'Slytherin'; // Changed this so a home would match
+            });
+            console.log(slyths);
+
+            // house buttons created and filters
+            var div = document.getElementById("btns");
+
+            var gryf = document.createElement("button");
+            gryf.innerHTML = "Gryffindor";
+            gryf.onclick = function() {
+                $(huffs).hide();
+                $(ravs).hide();
+                $(slyths).hide();
+                return false;
+            };
+
+            var huff = document.createElement("button");
+            huff.innerHTML = "Hufflepuff";
+            huff.onclick = function() {
+                $(gryfs).hide();
+                $(ravs).hide();
+                $(slyths).hide();
+                return false;
+            };
+            var rav = document.createElement("button");
+            rav.innerHTML = "Ravenclaw";
+            rav.onclick = function() {
+                $(huffs).hide();
+                $(gryfs).hide();
+                $(slyths).hide();
+                return false;
+            };
+
+            var slyth = document.createElement("button");
+            slyth.innerHTML = "Slytherin";
+            slyth.onclick = function() {
+                $(huffs).hide();
+                $(ravs).hide();
+                $(gryfs).hide();
+                return false;
+            };
+
+            // append to div tag to create button on page
+            div.appendChild(gryf);
+            div.appendChild(huff);
+            div.appendChild(rav);
+            div.appendChild(slyth);
+
+        });
+    </script>
+    <script src="https://preview.c9users.io/brendenw/web150/6_jquery/validate.js"></script>
+</body>
+
+</html>
