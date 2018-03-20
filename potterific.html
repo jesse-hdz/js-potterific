@@ -19,7 +19,7 @@
             background-color: gainsboro;
         }
         
-        #btns button {
+        button {
             background-color: rgb(170, 170, 170);
             /* Green background */
             border: 1px solid rgb(255, 255, 255);
@@ -35,28 +35,42 @@
             margin-bottom: .5em;
         }
         
-        #btns button:not(:last-child) {
+        button:not(:last-child) {
             border-right: none;
             /* Prevent double borders */
         }
         /* Clear floats (clearfix hack) */
         
-        #btns:after {
+        button:after {
             content: "";
             clear: both;
             display: table;
         }
         /* Add a background color on hover */
         
-        #btns button:hover {
+        button:hover {
             background-color: #ffffff;
             color: #000;
         }
+        
+        tr:nth-child(odd) {
+            background: rgba(12, 73, 12, 0.5);
+        }
     </style>
+    <script>
+        var tableRows = document.getElementsByTagName('tr');
+        console.dir(tableRows);
+    </script>
 </head>
 
 <body>
-    <div id="btns"></div>
+    <div id="btns">
+        <button id="gryf">Gryffindor</button>
+        <button id="huff">Hufflepuff</button>
+        <button id="rav">Ravenclaw</button>
+        <button id="slyth">Slytherin</button>
+    </div>
+
     <table id="myTable" border=1>
         <thead>
             <tr>
@@ -71,7 +85,7 @@
     </table>
 
     <br>
-    <button>reset</button>
+    <button id="reset">RESET</button>
 
 
     <script>
@@ -178,81 +192,66 @@
                     "</td><td>" + characters[i].role + "</td><td>" + characters[i].house +
                     "</td><td>" + characters[i].gender + "</td><td>" + characters[i].alignment +
                     "</td></tr>");
-                for (var j = 0; j < 5; j++) {
-                    if ($.inArray('Gryffindor', characters) > -1) {
-                        alert('LOL');
-                    }
-
-                }
             }
 
             // every other visible row to alternating colors
-            $('thead, tr:odd').addClass('odd');
-
-            //looks for house value
-            var gryfs = characters.filter(function(el) {
-                return el.house == 'Gryffindor'; // Changed this so a home would match
-            });
-            console.log(gryfs);
-
-            var huffs = characters.filter(function(el) {
-                return el.house == 'Hufflepuff'; // Changed this so a home would match
-            });
-            console.log(huffs);
-
-            var ravs = characters.filter(function(el) {
-                return el.house == 'Ravenclaw'; // Changed this so a home would match
-            });
-            console.log(ravs);
-
-            var slyths = characters.filter(function(el) {
-                return el.house == 'Slytherin'; // Changed this so a home would match
-            });
-            console.log(slyths);
+            $('table, tbody, tr:odd').addClass('odd');
 
             // house buttons created and filters
-            var div = document.getElementById("btns");
+            var gryf = document.getElementById('gryf');
+            var huff = document.getElementById('huff');
+            var rav = document.getElementById('rav');
+            var slyth = document.getElementById('slyth');
 
-            var gryf = document.createElement("button");
-            gryf.innerHTML = "Gryffindor";
-            gryf.onclick = function() {
-                $(huffs).hide();
-                $(ravs).hide();
-                $(slyths).hide();
-                return false;
-            };
+            //looks for house value
+            gryf.addEventListener('click', function() {
+                for (var i = 1; i < tableRows.length; i++) { //loop starts with 1 and not 0 because first element is th
+                    var td = tableRows[i].getElementsByTagName("td")[2];
+                    if (td) {
+                        if (td !== 'Gryffindor') {
+                            tableRows[i].hidden = true; //hide other than Gryffindor
+                        } else {
+                            tableRows[i].hidden = false; //display only Gryffindor
+                        }
+                    }
+                }
+            });
 
-            var huff = document.createElement("button");
-            huff.innerHTML = "Hufflepuff";
-            huff.onclick = function() {
-                $(gryfs).hide();
-                $(ravs).hide();
-                $(slyths).hide();
-                return false;
-            };
-            var rav = document.createElement("button");
-            rav.innerHTML = "Ravenclaw";
-            rav.onclick = function() {
-                $(huffs).hide();
-                $(gryfs).hide();
-                $(slyths).hide();
-                return false;
-            };
+            huff.addEventListener('click', function() {
+                for (var i = 1; i < tableRows.length; i++) { //loop starts with 1 and not 0 because first element is th
+                    if (tableRows[i].house !== 'Hufflepuff') {
+                        tableRows[i].hidden = true; //hide other than Hufflepuff
+                    } else {
+                        tableRows[i].hidden = false; //display only Hufflepuff
+                    }
+                }
+            });
 
-            var slyth = document.createElement("button");
-            slyth.innerHTML = "Slytherin";
-            slyth.onclick = function() {
-                $(huffs).hide();
-                $(ravs).hide();
-                $(gryfs).hide();
-                return false;
-            };
+            rav.addEventListener('click', function() {
+                for (var i = 1; i < tableRows.length; i++) { //loop starts with 1 and not 0 because first element is th
+                    if (tableRows[i].house !== 'Ravenclaw') {
+                        tableRows[i].hidden = true; //hide other than Ravenclaw
+                    } else {
+                        tableRows[i].hidden = false; //display only Ravenclaw
+                    }
+                }
+            });
 
-            // append to div tag to create button on page
-            div.appendChild(gryf);
-            div.appendChild(huff);
-            div.appendChild(rav);
-            div.appendChild(slyth);
+            slyth.addEventListener('click', function() {
+                for (var i = 1; i < tableRows.length; i++) { //loop starts with 1 and not 0 because first element is th
+                    if (tableRows[i].house !== 'Slytherin') {
+                        tableRows[i].hidden = true; //hide other than Slytherin
+                    } else {
+                        tableRows[i].hidden = false; //display only Slytherin
+                    }
+                }
+            });
+
+            reset.addEventListener('click', function() {
+                for (var i = 1; i < tableRows.length; i++) {
+                    tableRows[i].hidden = false; //displays all rows 
+                }
+            });
 
         });
     </script>
